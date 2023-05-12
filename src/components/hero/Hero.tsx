@@ -16,7 +16,7 @@ export const Hero = () => {
       </p>
       <div>
         <h1
-          className={`${styles.glitchEffect} ${pressStart.className} text-2xl text-aqua lg:text-6xl`}
+          className={`${styles.glitchEffect} ${pressStart.className} text-xl md:text-4xl text-aqua lg:text-6xl`}
           title={name}
         >
           {name}

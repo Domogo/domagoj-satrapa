@@ -4,7 +4,7 @@ import { SectionHeader } from "components/shared/SectionHeader";
 
 export const About = () => {
   return (
-    <div className="w-full h-screen px-4 lg:px-24">
+    <div className="w-full min-h-screen px-4 lg:px-24 pb-16">
       <div className="flex flex-col gap-4">
         <SectionHeader text="About me" />
 

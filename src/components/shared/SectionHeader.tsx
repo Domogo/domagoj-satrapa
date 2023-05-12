@@ -8,9 +8,7 @@ export const SectionHeader: FC<{ text: string }> = ({ text }) => {
   return (
     <div className="flex items-center gap-2">
       <InvaderWhite />
-      <h2 className={`${oswald.className} text-xl lg:text-2xl text-aqua`}>
-        {text}
-      </h2>
+      <h2 className={`${oswald.className} text-2xl text-aqua`}>{text}</h2>
     </div>
   );
 };
