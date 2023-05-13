@@ -11,6 +11,13 @@ body {
   overflow-x: hidden;
 }
 
+p,
+h1,
+h2,
+h3 {
+  cursor: default;
+}
+
 .bg {
   position: fixed;
   top: -50%;

@@ -6,6 +6,7 @@ export const Invader = () => {
       <Image
         className="object-contain"
         fill
+        sizes="100%"
         src="/invader_blue.webp"
         alt="invader"
       />

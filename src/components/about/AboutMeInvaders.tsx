@@ -10,6 +10,7 @@ const Invader: FC<{ deg: number; isBlue: boolean }> = ({ deg, isBlue }) => {
         className={`object-contain`}
         style={{ transform: `rotate(${degStr})` }}
         fill
+        sizes="100%"
         src={imgSrc}
         alt="invader"
       />

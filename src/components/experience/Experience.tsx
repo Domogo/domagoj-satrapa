@@ -1,32 +1,30 @@
 "use client";
 
+import { FTButton } from "components/about/FTButton";
 import { InvaderWhite } from "components/invader/InvaderWhite";
 import { SectionHeader } from "components/shared/SectionHeader";
-import { Roboto_Mono } from "next/font/google";
+import { Roboto_Mono, Oswald, Press_Start_2P } from "next/font/google";
 import { useState } from "react";
-
-// Lead Engineer Tapija
-// President TCP
-// Lead Engineer Enmaga
-// Software Engineer Infobip
-// Associate Engineer iOLAP
+import { ExperienceDescription } from "./ExperienceDescription";
 
 const robotoMono = Roboto_Mono({ weight: "300", subsets: ["latin"] });
+const oswald = Oswald({ subsets: ["latin"] });
+const pressStart = Press_Start_2P({ weight: "400", subsets: ["latin"] });
 
-type Experience = "Tapija" | "TCP" | "Enmaga" | "Infobip" | "iOLAP";
+export type Experience = "Tapija" | "tcp" | "Infobip" | "iOLAP"; // | "Enmaga";
 const experienceList: Experience[] = [
   "Tapija",
-  "TCP",
-  "Enmaga",
+  // "Enmaga",
   "Infobip",
   "iOLAP",
+  "tcp",
 ];
 
 export const Experience = () => {
   const [selectedExperience, setSelectedExperience] =
     useState<Experience>("Tapija");
 
-  const translateAmount = experienceList.indexOf(selectedExperience) * 20;
+  const translateAmount = experienceList.indexOf(selectedExperience) * 25;
 
   return (
     <div className="w-full h-screen px-4 lg:px-24">
@@ -39,20 +37,20 @@ export const Experience = () => {
               className="ease-in-out duration-300"
               style={{ transform: `translateX(${translateAmount}%)` }}
             >
-              <div className="flex w-[20%] justify-center">
+              <div className="flex w-[25%] justify-center">
                 <InvaderWhite />
               </div>
             </div>
           </div>
 
           <div
-            className={`flex gap-1 text-slate-300 ${robotoMono.className} text-l lg:text-xl`}
+            className={`flex gap-2 text-slate-300 ${robotoMono.className} text-l lg:text-xl`}
           >
             {experienceList.map((e) => (
               <div
                 className={`${
                   selectedExperience === e ? "text-aqua" : ""
-                } cursor-pointer w-[20%] text-center`}
+                } cursor-pointer w-[25%] text-center`}
                 onClick={() => setSelectedExperience(e)}
                 key={e}
                 id={e}
@@ -62,6 +60,9 @@ export const Experience = () => {
             ))}
           </div>
         </div>
+
+        {/* Work Descriptions */}
+        <ExperienceDescription company={selectedExperience} />
       </div>
     </div>
   );
