@@ -14,11 +14,16 @@ const experienceLinks: { [key in Experience]: string } = {
 };
 
 const experiencePosition: { [key in Experience]: string } = {
-  Tapija: "Lead Engineer",
+  Tapija: "Software Engineer, Founder",
   Infobip: "Software Engineer",
   iOLAP: "Associate Engineer",
   tcp: "President",
 };
+
+// Building and managing teams, architecting software systems,
+//  running a mix of cloud and on-prem infrastructure, and developing
+//   web and mobile apps for startups, established companies,
+//    and non-profits throughout Europe and the US
 
 export const ExperienceDescription: FC<{ company: Experience }> = ({
   company,

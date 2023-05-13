@@ -1,15 +1,12 @@
 "use client";
 
-import { FTButton } from "components/about/FTButton";
 import { InvaderWhite } from "components/invader/InvaderWhite";
 import { SectionHeader } from "components/shared/SectionHeader";
-import { Roboto_Mono, Oswald, Press_Start_2P } from "next/font/google";
+import { Roboto_Mono } from "next/font/google";
 import { useState } from "react";
 import { ExperienceDescription } from "./ExperienceDescription";
 
 const robotoMono = Roboto_Mono({ weight: "300", subsets: ["latin"] });
-const oswald = Oswald({ subsets: ["latin"] });
-const pressStart = Press_Start_2P({ weight: "400", subsets: ["latin"] });
 
 export type Experience = "Tapija" | "tcp" | "Infobip" | "iOLAP"; // | "Enmaga";
 const experienceList: Experience[] = [
