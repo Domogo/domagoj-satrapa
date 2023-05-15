@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { CTAButton } from "../shared/CTAButton";
 import styles from "./Hero.module.css";
 import { Press_Start_2P, Oswald, Roboto_Mono } from "next/font/google";
@@ -42,6 +43,16 @@ export const Hero = () => {
       <div className="flex gap-2">
         <CTAButton url="#contact" text="Get in touch" />
         <CTAButton url="#" text="Resume" />
+        <a
+          href="https://github.com/Domogo"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`w-fit uppercase ${robotoMono.className} cursor-pointer mt-2 text-aqua border border-aqua p-2`}
+        >
+          <div className="w-6 h-6 relative text-aqua">
+            <Image src="/github.svg" fill alt="GitHub icon" />
+          </div>
+        </a>
       </div>
     </div>
   );

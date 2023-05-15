@@ -1,10 +1,11 @@
 import { FTButton } from "components/about/FTButton";
-import { Oswald, Press_Start_2P } from "next/font/google";
+import { Oswald, Press_Start_2P, Roboto_Mono } from "next/font/google";
 import { FC } from "react";
 import { Experience } from "./Experience";
 
 const oswald = Oswald({ subsets: ["latin"] });
 const pressStart = Press_Start_2P({ weight: "400", subsets: ["latin"] });
+const robotoMono = Roboto_Mono({ weight: "300", subsets: ["latin"] });
 
 const experienceLinks: { [key in Experience]: string } = {
   Tapija: "https://www.tapija.com/",
@@ -18,6 +19,13 @@ const experiencePosition: { [key in Experience]: string } = {
   Infobip: "Software Engineer",
   iOLAP: "Associate Engineer",
   tcp: "President",
+};
+
+const experienceDate: { [key in Experience]: string } = {
+  Tapija: "Oct. 2021 - Present (Previously Enmaga)",
+  Infobip: "Feb. 2020 - Oct. 2021",
+  iOLAP: "Feb 2019 - Nov. 2019",
+  tcp: "Sep. 2022 - Present",
 };
 
 // Building and managing teams, architecting software systems,
@@ -35,18 +43,16 @@ export const ExperienceDescription: FC<{ company: Experience }> = ({
           {experiencePosition[company]}
         </p>
         <span className={`${pressStart.className} text-sm text-aqua`}>
-          @{" "}
-          {/* <a
-          href="https://www.tapija.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Tapija
-        </a> */}
+          @
           <FTButton url={experienceLinks[company]} name={company} />
         </span>
       </div>
-      <p className="text-slate-300">AAAAAAAAAAAA</p>
+      <div>
+        <p className={`text-slate-300 ${robotoMono.className} text-xs`}>
+          {experienceDate[company]}
+        </p>
+      </div>
+      <p className={`text-slate-300 ${robotoMono.className}`}>AAAAAAAAAAAA</p>
     </div>
   );
 };
