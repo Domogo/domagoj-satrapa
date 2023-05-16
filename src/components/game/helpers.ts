@@ -18,7 +18,7 @@ export const INVADER_WIDTH = 50;
 export const INVADER_SPACING = 10;
 export const INVADERS_PER_ROW = 6;
 export const INVADER_ROWS = 3;
-export const INVADER_SPEED = 1;
+export const INVADER_SPEED = 2;
 
 export const drawShip = (p5: p5Types, shipX: number) => {
   p5.noStroke();
