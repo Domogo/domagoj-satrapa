@@ -140,8 +140,21 @@ export const checkCollision = (
     if (bulletIsWithinXRange && bulletIsWithinYRange) {
       // remove bullet
       setBullets((bullets) => bullets.filter((b) => b.id !== bullet.id));
-      // remove invader
-      setInvaders((invaders) => invaders.filter((i) => i.id !== invader.id));
+
+      // if blue, turn white
+      if (invader.isBlue) {
+        setInvaders((invaders) =>
+          invaders.map((i) => {
+            if (i.id === invader.id) {
+              return { ...i, isBlue: false };
+            }
+            return i;
+          })
+        );
+      } else {
+        // remove invader
+        setInvaders((invaders) => invaders.filter((i) => i.id !== invader.id));
+      }
     }
   });
 };
