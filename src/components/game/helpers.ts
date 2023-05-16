@@ -8,6 +8,7 @@ export const NIGHT_COLOR = "#131313";
 export const SHIP_WIDTH = 10;
 export const SHIP_HEIGHT = 20;
 export const SHIP_SPEED = 5;
+export const SHIP_HORIZON_LINE = 40;
 
 export const BULLET_SIZE = 5;
 export const BULLET_SPEED = 5;
@@ -23,7 +24,35 @@ export const drawShip = (p5: p5Types, shipX: number) => {
   p5.noStroke();
   p5.fill(255);
   p5.rectMode(p5.CENTER);
-  p5.rect(shipX, p5.height - 20, SHIP_WIDTH, SHIP_HEIGHT);
+  p5.rect(shipX, p5.height - SHIP_HORIZON_LINE, SHIP_WIDTH, SHIP_HEIGHT);
+};
+
+export const moveShip = (
+  shipX: number,
+  shipDirection: number,
+  setShipX: Dispatch<SetStateAction<number>>
+) => {
+  if (shipX <= 0 + SHIP_WIDTH && shipDirection === -1) {
+    return;
+  }
+  if (shipX >= 800 - SHIP_WIDTH && shipDirection === 1) {
+    return;
+  }
+  setShipX(shipX + SHIP_SPEED * shipDirection);
+};
+
+export const checkShipCollision = (
+  shipY: number,
+  invaders: InvaderSprite[],
+  pauseGame: () => void
+) => {
+  const collision = invaders.some((invader) => {
+    return invader.y + INVADER_HEIGHT >= shipY;
+  });
+
+  if (collision) {
+    pauseGame();
+  }
 };
 
 export const drawInvader = (
@@ -33,6 +62,35 @@ export const drawInvader = (
   invader: p5Types.Image
 ) => {
   p5.image(invader, x, y, INVADER_WIDTH, INVADER_HEIGHT);
+};
+
+export const moveInvaders = (
+  invaders: InvaderSprite[],
+  invaderDirection: number,
+  setInvaders: Dispatch<SetStateAction<InvaderSprite[]>>,
+  setInvaderDirection: Dispatch<SetStateAction<number>>
+) => {
+  let shift = false;
+  invaders.map((invader) => {
+    if (invader.x >= 800 - INVADER_WIDTH) {
+      setInvaderDirection(-1);
+      shift = true;
+    }
+    if (invader.x < 0) {
+      setInvaderDirection(1);
+      shift = true;
+    }
+  });
+
+  const newInvaders = invaders.map((invader) => {
+    return {
+      ...invader,
+      x: invader.x + INVADER_SPEED * invaderDirection,
+      y: shift ? invader.y + INVADER_HEIGHT : invader.y,
+    };
+  });
+
+  setInvaders(newInvaders);
 };
 
 export const drawBullet = (p5: p5Types, x: number, y: number) => {

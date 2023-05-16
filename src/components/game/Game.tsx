@@ -4,11 +4,10 @@ import { SectionHeader } from "components/shared/SectionHeader";
 import { nanoid } from "nanoid";
 import dynamic from "next/dynamic";
 import p5Types from "p5";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import {
   InvaderSprite,
   Bullet,
-  INVADER_WIDTH,
   NIGHT_COLOR,
   drawShip,
   drawInvader,
@@ -18,51 +17,17 @@ import {
   SHIP_HEIGHT,
   BULLET_SIZE,
   checkCollision,
-  INVADER_SPEED,
   initializeInvaders,
-  SHIP_SPEED,
-  SHIP_WIDTH,
+  moveShip,
+  moveInvaders,
+  SHIP_HORIZON_LINE,
+  checkShipCollision,
 } from "./helpers";
 
 const Sketch = dynamic(() => import("react-p5"), { ssr: false });
 
-export const moveInvaders = (
-  invaders: InvaderSprite[],
-  invaderDirection: number,
-  setInvaders: Dispatch<SetStateAction<InvaderSprite[]>>,
-  setInvaderDirection: Dispatch<SetStateAction<number>>
-) => {
-  const newInvaders = invaders.map((invader) => {
-    if (invader.x >= 800 - INVADER_WIDTH) {
-      setInvaderDirection(-1);
-    }
-    if (invader.x < 0) {
-      setInvaderDirection(1);
-    }
-    return {
-      ...invader,
-      x: invader.x + INVADER_SPEED * invaderDirection,
-    };
-  });
-
-  setInvaders(newInvaders);
-};
-
-const moveShip = (
-  shipX: number,
-  shipDirection: number,
-  setShipX: Dispatch<SetStateAction<number>>
-) => {
-  if (shipX <= 0 + SHIP_WIDTH && shipDirection === -1) {
-    return;
-  }
-  if (shipX >= 800 - SHIP_WIDTH && shipDirection === 1) {
-    return;
-  }
-  setShipX(shipX + SHIP_SPEED * shipDirection);
-};
-
 export const Game = () => {
+  const [playing, setPlaying] = useState<boolean>(true);
   const [shipX, setShipX] = useState(300);
   // 0 - not moving, 1 - moving right, -1 - moving left
   const [shipDirection, setShipDirection] = useState(0);
@@ -82,17 +47,22 @@ export const Game = () => {
   const setup = (p5: p5Types, canvasParentRef: Element) => {
     p5.createCanvas(800, 600).parent(canvasParentRef);
 
-    setShipX(p5.width / 2);
-
     const initialInvaders = initializeInvaders();
     setInvaders(initialInvaders);
   };
 
   const draw = (p5: p5Types) => {
+    if (!playing) return;
     p5.background(NIGHT_COLOR);
 
     drawShip(p5, shipX);
     moveShip(shipX, shipDirection, setShipX);
+    checkShipCollision(
+      p5.height - SHIP_HORIZON_LINE - SHIP_HEIGHT,
+      invaders,
+      () => setPlaying(false)
+    );
+
     invaders.forEach((invader) => {
       drawInvader(
         p5,
