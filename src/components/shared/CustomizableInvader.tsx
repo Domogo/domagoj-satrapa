@@ -1,9 +1,9 @@
 import { FC } from "react";
 import Image from "next/image";
 
-export const CustomizableInvader: FC<{ deg: number; isBlue: boolean }> = ({
+export const CustomizableInvader: FC<{ deg: number; isBlue?: boolean }> = ({
   deg,
-  isBlue,
+  isBlue = false,
 }) => {
   const degStr = `${deg}deg`;
   const imgSrc = isBlue ? "/invader_blue.webp" : "/invader_white.webp";
