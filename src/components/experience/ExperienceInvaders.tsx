@@ -1,11 +1,11 @@
 import { CustomizableInvader } from "components/shared/CustomizableInvader";
 
-export const AboutMeInvaders = () => {
+export const ExperienceInvaders = () => {
   const invaders = [];
 
-  let deg = 0;
+  let deg = 90;
   for (let i = 0; i < 18; i++) {
-    invaders.push(<CustomizableInvader deg={deg} isBlue={i == 8} />);
+    invaders.push(<CustomizableInvader deg={deg} isBlue={i % 4 === 0} />);
     deg += 90;
   }
 
