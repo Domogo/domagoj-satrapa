@@ -6,7 +6,11 @@ export const WorkInvaders = () => {
   let deg = 0;
   for (let i = 0; i < 18; i++) {
     invaders.push(
-      <CustomizableInvader deg={deg} isBlue={[2, 8, 9, 14].includes(i)} />
+      <CustomizableInvader
+        key={i}
+        deg={deg}
+        isBlue={[2, 8, 9, 14].includes(i)}
+      />
     );
     deg += 90;
   }

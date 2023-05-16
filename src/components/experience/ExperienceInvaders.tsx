@@ -5,7 +5,9 @@ export const ExperienceInvaders = () => {
 
   let deg = 90;
   for (let i = 0; i < 18; i++) {
-    invaders.push(<CustomizableInvader deg={deg} isBlue={i % 4 === 0} />);
+    invaders.push(
+      <CustomizableInvader key={i} deg={deg} isBlue={i % 4 === 0} />
+    );
     deg += 90;
   }
 

@@ -5,7 +5,7 @@ export const AboutMeInvaders = () => {
 
   let deg = 0;
   for (let i = 0; i < 18; i++) {
-    invaders.push(<CustomizableInvader deg={deg} isBlue={i == 8} />);
+    invaders.push(<CustomizableInvader key={i} deg={deg} isBlue={i == 8} />);
     deg += 90;
   }
 

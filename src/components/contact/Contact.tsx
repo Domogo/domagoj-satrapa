@@ -29,11 +29,6 @@ export const Contact = () => {
             <p
               className={`${robotoMono.className} text-l lg:text-l text-slate-300`}
             >
-              I am open to new opportunities and inquiries.
-            </p>
-            <p
-              className={`${robotoMono.className} text-l lg:text-l text-slate-300`}
-            >
               If you have a project in mind, require assistance with web
               development, or wish to explore potential collaborations, please
               don&apos;t hesitate to contact me.
@@ -41,9 +36,14 @@ export const Contact = () => {
             <p
               className={`${robotoMono.className} text-l lg:text-l text-slate-300`}
             >
-              You can reach me directly via email, and I am open to discussing
-              various possibilities. I look forward to hearing from you and
-              exploring how we can work together to achieve your goals.
+              You can reach me directly via LinkedIn or email, and I am open to
+              discussing various possibilities. I look forward to hearing from
+              you and exploring how we can work together to achieve your goals.
+            </p>
+            <p
+              className={`${robotoMono.className} text-l lg:text-l text-slate-300`}
+            >
+              I am open to new opportunities and inquiries.
             </p>
           </div>
           <div className="flex gap-2 items-center">
