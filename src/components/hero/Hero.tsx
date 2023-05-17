@@ -42,7 +42,7 @@ export const Hero = () => {
 
       <div className="flex gap-2">
         <CTAButton url="#contact" text="Get in touch" />
-        <CTAButton url="#" text="Resume" />
+        {/* <CTAButton url="#" text="Resume" /> */}
         <GitHubButton />
       </div>
     </div>
