@@ -26,13 +26,15 @@ import {
   INVADER_ROWS,
 } from "./helpers";
 import { Press_Start_2P, Roboto_Mono } from "next/font/google";
+import { useWindowSize } from "react-use";
 
 const Sketch = dynamic(() => import("react-p5"), { ssr: false });
 const robotoMono = Roboto_Mono({ weight: "300", subsets: ["latin"] });
 const pressStart = Press_Start_2P({ weight: "400", subsets: ["latin"] });
 
 export const Game = () => {
-  const gameWidth = window.innerWidth > 800 ? 800 : window.innerWidth;
+  const { width } = useWindowSize();
+  const gameWidth = width > 800 ? 800 : width;
 
   const [playing, setPlaying] = useState(false);
   const [score, setScore] = useState(0);
@@ -154,6 +156,28 @@ export const Game = () => {
     }
   };
 
+  const onLeftArrowPressed = () => {
+    setShipDirection(-1);
+  };
+
+  const onRightArrowPressed = () => {
+    setShipDirection(1);
+  };
+
+  const onArrowReleased = () => {
+    setShipDirection(0);
+  };
+
+  const onPewPressed = () => {
+    const bullet: Bullet = {
+      id: nanoid(),
+      x: shipX,
+      y: gameWidth / 1.33 - shipHeight(gameWidth) - BULLET_SIZE,
+    };
+
+    setBullets([...bullets, bullet]);
+  };
+
   return (
     <div className="w-full min-h-screen px-4 lg:px-24">
       <div className="flex flex-col gap-4">
@@ -192,6 +216,36 @@ export const Game = () => {
             keyReleased={keyReleased}
             preload={preload}
           />
+
+          <div
+            className={
+              "flex w-2/3 justify-between gap-2 gameButtonsCutoff:hidden"
+            }
+          >
+            <div className="flex gap-2">
+              <button
+                onTouchEnd={onArrowReleased}
+                onTouchStart={onLeftArrowPressed}
+                className={`w-fit uppercase ${robotoMono.className} cursor-pointer mt-2 text-aqua border border-aqua p-2`}
+              >
+                {"<-"}
+              </button>
+              <button
+                onTouchEnd={onArrowReleased}
+                onTouchStart={onRightArrowPressed}
+                className={`w-fit uppercase ${robotoMono.className} cursor-pointer mt-2 text-aqua border border-aqua p-2`}
+              >
+                {"->"}
+              </button>
+            </div>
+
+            <button
+              onClick={onPewPressed}
+              className={`w-fit uppercase ${robotoMono.className} cursor-pointer mt-2 text-aqua border border-aqua p-2`}
+            >
+              PEW!
+            </button>
+          </div>
         </div>
       </div>
     </div>
