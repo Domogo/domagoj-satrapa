@@ -14,13 +14,13 @@ import {
   drawBullet,
   moveBullet,
   X_KEY,
-  SHIP_HEIGHT,
+  shipHeight,
   BULLET_SIZE,
   checkCollision,
   initializeInvaders,
   moveShip,
   moveInvaders,
-  SHIP_HORIZON_LINE,
+  shipHorizonLine,
   checkShipCollision,
   INVADERS_PER_ROW,
   INVADER_ROWS,
@@ -32,6 +32,8 @@ const robotoMono = Roboto_Mono({ weight: "300", subsets: ["latin"] });
 const pressStart = Press_Start_2P({ weight: "400", subsets: ["latin"] });
 
 export const Game = () => {
+  const gameWidth = window.innerWidth > 800 ? 800 : window.innerWidth;
+
   const [playing, setPlaying] = useState(false);
   const [score, setScore] = useState(0);
   const [hasWon, setHasWon] = useState(false);
@@ -54,18 +56,19 @@ export const Game = () => {
   };
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
-    p5.createCanvas(800, 600).parent(canvasParentRef);
+    p5.createCanvas(gameWidth, gameWidth / 1.33).parent(canvasParentRef);
 
-    const initialInvaders = initializeInvaders();
+    const initialInvaders = initializeInvaders(gameWidth);
     setInvaders(initialInvaders);
 
-    drawShip(p5, shipX);
+    drawShip(p5, shipX, gameWidth);
     initialInvaders.forEach((invader) => {
       drawInvader(
         p5,
         invader.x,
         invader.y,
-        invader.isBlue ? invaderBlueSprite! : invaderWhiteSprite!
+        invader.isBlue ? invaderBlueSprite! : invaderWhiteSprite!,
+        gameWidth
       );
     });
   };
@@ -75,11 +78,12 @@ export const Game = () => {
 
     p5.background(NIGHT_COLOR);
 
-    drawShip(p5, shipX);
-    moveShip(shipX, shipDirection, setShipX);
+    drawShip(p5, shipX, gameWidth);
+    moveShip(shipX, shipDirection, gameWidth, setShipX);
     checkShipCollision(
-      p5.height - SHIP_HORIZON_LINE - SHIP_HEIGHT,
+      p5.height - shipHorizonLine(gameWidth) - shipHeight(gameWidth),
       invaders,
+      gameWidth,
       () => {
         setPlaying(false);
         setGameEnd(true);
@@ -92,11 +96,13 @@ export const Game = () => {
         p5,
         invader.x,
         invader.y,
-        invader.isBlue ? invaderBlueSprite! : invaderWhiteSprite!
+        invader.isBlue ? invaderBlueSprite! : invaderWhiteSprite!,
+        gameWidth
       );
       moveInvaders(
         invaders,
         invaderDirection,
+        gameWidth,
         setInvaders,
         setInvaderDirection
       );
@@ -105,7 +111,14 @@ export const Game = () => {
     bullets.forEach((bullet) => {
       drawBullet(p5, bullet.x, bullet.y);
       moveBullet(bullet, setBullets);
-      checkCollision(bullet, invaders, setInvaders, setBullets, setScore);
+      checkCollision(
+        bullet,
+        invaders,
+        gameWidth,
+        setInvaders,
+        setBullets,
+        setScore
+      );
     });
 
     if (score === INVADERS_PER_ROW * INVADER_ROWS) {
@@ -128,7 +141,7 @@ export const Game = () => {
       const bullet: Bullet = {
         id: nanoid(),
         x: shipX,
-        y: p5.height - SHIP_HEIGHT - BULLET_SIZE,
+        y: p5.height - shipHeight(gameWidth) - BULLET_SIZE,
       };
 
       setBullets([...bullets, bullet]);

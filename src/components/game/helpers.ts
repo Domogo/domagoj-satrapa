@@ -5,37 +5,43 @@ import { nanoid } from "nanoid";
 export const X_KEY = 88;
 export const NIGHT_COLOR = "#131313";
 
-export const SHIP_WIDTH = 10;
-export const SHIP_HEIGHT = 20;
+export const shipWidth = (screenWidth: number) => screenWidth / 80;
+export const shipHeight = (screenWidth: number) => screenWidth / 40;
 export const SHIP_SPEED = 5;
-export const SHIP_HORIZON_LINE = 40;
+export const shipHorizonLine = (screenWidth: number) => screenWidth / 20;
 
 export const BULLET_SIZE = 5;
 export const BULLET_SPEED = 5;
 
-export const INVADER_HEIGHT = 40;
-export const INVADER_WIDTH = 50;
-export const INVADER_SPACING = 10;
+export const invaderHeight = (screenWidth: number) => screenWidth / 20;
+export const invaderWidth = (screenWidth: number) => screenWidth / 16;
+export const invaderSpacing = (screenWidth: number) => screenWidth / 80;
 export const INVADERS_PER_ROW = 6;
 export const INVADER_ROWS = 3;
 export const INVADER_SPEED = 2;
 
-export const drawShip = (p5: p5Types, shipX: number) => {
+export const drawShip = (p5: p5Types, shipX: number, screenWidth: number) => {
   p5.noStroke();
   p5.fill(255);
   p5.rectMode(p5.CENTER);
-  p5.rect(shipX, p5.height - SHIP_HORIZON_LINE, SHIP_WIDTH, SHIP_HEIGHT);
+  p5.rect(
+    shipX,
+    p5.height - shipHorizonLine(screenWidth),
+    shipWidth(screenWidth),
+    shipHeight(screenWidth)
+  );
 };
 
 export const moveShip = (
   shipX: number,
   shipDirection: number,
+  screenWidth: number,
   setShipX: Dispatch<SetStateAction<number>>
 ) => {
-  if (shipX <= 0 + SHIP_WIDTH && shipDirection === -1) {
+  if (shipX <= 0 + shipWidth(screenWidth) && shipDirection === -1) {
     return;
   }
-  if (shipX >= 800 - SHIP_WIDTH && shipDirection === 1) {
+  if (shipX >= screenWidth - shipWidth(screenWidth) && shipDirection === 1) {
     return;
   }
   setShipX(shipX + SHIP_SPEED * shipDirection);
@@ -44,10 +50,11 @@ export const moveShip = (
 export const checkShipCollision = (
   shipY: number,
   invaders: InvaderSprite[],
+  screenWidth: number,
   pauseGame: () => void
 ) => {
   const collision = invaders.some((invader) => {
-    return invader.y + INVADER_HEIGHT >= shipY;
+    return invader.y + invaderHeight(screenWidth) >= shipY;
   });
 
   if (collision) {
@@ -59,20 +66,28 @@ export const drawInvader = (
   p5: p5Types,
   x: number,
   y: number,
-  invader: p5Types.Image
+  invader: p5Types.Image,
+  screenWidth: number
 ) => {
-  p5.image(invader, x, y, INVADER_WIDTH, INVADER_HEIGHT);
+  p5.image(
+    invader,
+    x,
+    y,
+    invaderWidth(screenWidth),
+    invaderHeight(screenWidth)
+  );
 };
 
 export const moveInvaders = (
   invaders: InvaderSprite[],
   invaderDirection: number,
+  screenWidth: number,
   setInvaders: Dispatch<SetStateAction<InvaderSprite[]>>,
   setInvaderDirection: Dispatch<SetStateAction<number>>
 ) => {
   let shift = false;
   invaders.map((invader) => {
-    if (invader.x >= 800 - INVADER_WIDTH) {
+    if (invader.x >= screenWidth - invaderWidth(screenWidth)) {
       setInvaderDirection(-1);
       shift = true;
     }
@@ -86,7 +101,7 @@ export const moveInvaders = (
     return {
       ...invader,
       x: invader.x + INVADER_SPEED * invaderDirection,
-      y: shift ? invader.y + INVADER_HEIGHT : invader.y,
+      y: shift ? invader.y + invaderHeight(screenWidth) : invader.y,
     };
   });
 
@@ -124,6 +139,7 @@ export const moveBullet = (
 export const checkCollision = (
   bullet: Bullet,
   invaders: InvaderSprite[],
+  screenWidth: number,
   setInvaders: Dispatch<SetStateAction<InvaderSprite[]>>,
   setBullets: Dispatch<SetStateAction<Bullet[]>>,
   setScore: Dispatch<SetStateAction<number>>
@@ -131,11 +147,13 @@ export const checkCollision = (
   invaders.forEach((invader) => {
     // check if bullet is within x range of invader
     const bulletIsWithinXRange =
-      bullet.x >= invader.x && bullet.x <= invader.x + INVADER_WIDTH;
+      bullet.x >= invader.x &&
+      bullet.x <= invader.x + invaderWidth(screenWidth);
 
     // check if bullet is within y range of invader
     const bulletIsWithinYRange =
-      bullet.y >= invader.y && bullet.y <= invader.y + INVADER_HEIGHT;
+      bullet.y >= invader.y &&
+      bullet.y <= invader.y + invaderHeight(screenWidth);
 
     // if both are true, then we have a collision
     if (bulletIsWithinXRange && bulletIsWithinYRange) {
@@ -161,14 +179,14 @@ export const checkCollision = (
   });
 };
 
-export const initializeInvaders = () => {
+export const initializeInvaders = (screenWidth: number) => {
   const initialInvaders: InvaderSprite[] = [];
   for (let j = 0; j < INVADER_ROWS; j++) {
     for (let i = 0; i < INVADERS_PER_ROW; i++) {
       initialInvaders.push({
         id: nanoid(),
-        x: i * (INVADER_WIDTH + INVADER_SPACING),
-        y: j * (INVADER_HEIGHT + INVADER_SPACING) + 60,
+        x: i * (invaderWidth(screenWidth) + invaderSpacing(screenWidth)),
+        y: j * (invaderHeight(screenWidth) + invaderSpacing(screenWidth)) + 60,
         isBlue: j === 0,
       });
     }
