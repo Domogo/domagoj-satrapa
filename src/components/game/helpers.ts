@@ -8,6 +8,7 @@ export const NIGHT_COLOR = "#131313";
 export const shipWidth = (screenWidth: number) => screenWidth / 80;
 export const shipHeight = (screenWidth: number) => screenWidth / 40;
 export const SHIP_SPEED = 5;
+export const SHIP_SPEED_MOBILE = 3;
 export const shipHorizonLine = (screenWidth: number) => screenWidth / 20;
 
 export const BULLET_SIZE = 5;
@@ -19,6 +20,7 @@ export const invaderSpacing = (screenWidth: number) => screenWidth / 80;
 export const INVADERS_PER_ROW = 6;
 export const INVADER_ROWS = 3;
 export const INVADER_SPEED = 2;
+export const INVADER_SPEED_MOBILE = 1;
 
 export const drawShip = (p5: p5Types, shipX: number, screenWidth: number) => {
   p5.noStroke();
@@ -44,7 +46,8 @@ export const moveShip = (
   if (shipX >= screenWidth - shipWidth(screenWidth) && shipDirection === 1) {
     return;
   }
-  setShipX(shipX + SHIP_SPEED * shipDirection);
+  const speed = screenWidth >= 800 ? SHIP_SPEED : SHIP_SPEED_MOBILE;
+  setShipX(shipX + speed * shipDirection);
 };
 
 export const checkShipCollision = (
@@ -97,10 +100,11 @@ export const moveInvaders = (
     }
   });
 
+  const speed = screenWidth >= 800 ? INVADER_SPEED : INVADER_SPEED_MOBILE;
   const newInvaders = invaders.map((invader) => {
     return {
       ...invader,
-      x: invader.x + INVADER_SPEED * invaderDirection,
+      x: invader.x + speed * invaderDirection,
       y: shift ? invader.y + invaderHeight(screenWidth) : invader.y,
     };
   });

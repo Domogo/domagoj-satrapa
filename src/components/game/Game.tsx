@@ -224,18 +224,22 @@ export const Game = () => {
           >
             <div className="flex gap-2">
               <button
-                onTouchEnd={onArrowReleased}
-                onTouchStart={onLeftArrowPressed}
-                className={`w-fit uppercase ${robotoMono.className} cursor-pointer mt-2 text-aqua border border-aqua p-2`}
+                onClick={onLeftArrowPressed}
+                className={`w-fit px-4 uppercase ${robotoMono.className} cursor-pointer mt-2 text-aqua text-xs border border-aqua p-2`}
               >
-                {"<-"}
+                {"<"}
               </button>
               <button
-                onTouchEnd={onArrowReleased}
-                onTouchStart={onRightArrowPressed}
-                className={`w-fit uppercase ${robotoMono.className} cursor-pointer mt-2 text-aqua border border-aqua p-2`}
+                onClick={onArrowReleased}
+                className={`w-fit px-4 uppercase ${robotoMono.className} cursor-pointer mt-2 text-aqua text-xs border border-aqua p-2`}
               >
-                {"->"}
+                -
+              </button>
+              <button
+                onClick={onRightArrowPressed}
+                className={`w-fit px-4 uppercase ${robotoMono.className} cursor-pointer mt-2 text-aqua text-xs border border-aqua p-2`}
+              >
+                {">"}
               </button>
             </div>
 
