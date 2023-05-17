@@ -105,7 +105,7 @@ export const moveInvaders = (
     return {
       ...invader,
       x: invader.x + speed * invaderDirection,
-      y: shift ? invader.y + invaderHeight(screenWidth) : invader.y,
+      y: shift ? invader.y + invaderHeight(screenWidth) / 2 : invader.y,
     };
   });
 

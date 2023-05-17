@@ -178,6 +178,18 @@ export const Game = () => {
     setBullets([...bullets, bullet]);
   };
 
+  const replay = () => {
+    setPlaying(true);
+    setGameEnd(false);
+    setScore(0);
+    setHasWon(false);
+    setShipX(300);
+    setShipDirection(0);
+    setInvaders(initializeInvaders(gameWidth));
+    setInvaderDirection(1);
+    setBullets([]);
+  };
+
   return (
     <div className="w-full min-h-screen px-4 lg:px-24">
       <div className="flex flex-col gap-4">
@@ -189,16 +201,35 @@ export const Game = () => {
           <p>Mobile: Use the on screen buttons to move and shoot.</p>
         </div>
 
-        {!playing && (
-          <div className="flex justify-center">
+        <div className="flex justify-center">
+          {!playing && !gameEnd && (
             <button
               onClick={() => setPlaying(true)}
               className={`w-fit uppercase ${robotoMono.className} cursor-pointer mt-2 text-aqua border border-aqua p-2`}
             >
               PLAY
             </button>
-          </div>
-        )}
+          )}
+          {playing && !gameEnd && (
+            <button
+              onClick={() => {
+                setPlaying(false);
+              }}
+              className={`w-fit uppercase ${robotoMono.className} cursor-pointer mt-2 text-aqua border border-aqua p-2`}
+            >
+              PAUSE
+            </button>
+          )}
+
+          {gameEnd && (
+            <button
+              onClick={replay}
+              className={`w-fit uppercase ${robotoMono.className} cursor-pointer mt-2 text-aqua border border-aqua p-2`}
+            >
+              REPLAY
+            </button>
+          )}
+        </div>
 
         {gameEnd && (
           <div
