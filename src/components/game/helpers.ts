@@ -125,7 +125,8 @@ export const checkCollision = (
   bullet: Bullet,
   invaders: InvaderSprite[],
   setInvaders: Dispatch<SetStateAction<InvaderSprite[]>>,
-  setBullets: Dispatch<SetStateAction<Bullet[]>>
+  setBullets: Dispatch<SetStateAction<Bullet[]>>,
+  setScore: Dispatch<SetStateAction<number>>
 ) => {
   invaders.forEach((invader) => {
     // check if bullet is within x range of invader
@@ -154,6 +155,7 @@ export const checkCollision = (
       } else {
         // remove invader
         setInvaders((invaders) => invaders.filter((i) => i.id !== invader.id));
+        setScore((score) => score + 1);
       }
     }
   });

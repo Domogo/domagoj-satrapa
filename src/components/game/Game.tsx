@@ -22,12 +22,21 @@ import {
   moveInvaders,
   SHIP_HORIZON_LINE,
   checkShipCollision,
+  INVADERS_PER_ROW,
+  INVADER_ROWS,
 } from "./helpers";
+import { Press_Start_2P, Roboto_Mono } from "next/font/google";
 
 const Sketch = dynamic(() => import("react-p5"), { ssr: false });
+const robotoMono = Roboto_Mono({ weight: "300", subsets: ["latin"] });
+const pressStart = Press_Start_2P({ weight: "400", subsets: ["latin"] });
 
 export const Game = () => {
-  const [playing, setPlaying] = useState<boolean>(true);
+  const [playing, setPlaying] = useState(false);
+  const [score, setScore] = useState(0);
+  const [hasWon, setHasWon] = useState(false);
+  const [gameEnd, setGameEnd] = useState(false);
+
   const [shipX, setShipX] = useState(300);
   // 0 - not moving, 1 - moving right, -1 - moving left
   const [shipDirection, setShipDirection] = useState(0);
@@ -49,10 +58,21 @@ export const Game = () => {
 
     const initialInvaders = initializeInvaders();
     setInvaders(initialInvaders);
+
+    drawShip(p5, shipX);
+    initialInvaders.forEach((invader) => {
+      drawInvader(
+        p5,
+        invader.x,
+        invader.y,
+        invader.isBlue ? invaderBlueSprite! : invaderWhiteSprite!
+      );
+    });
   };
 
   const draw = (p5: p5Types) => {
     if (!playing) return;
+
     p5.background(NIGHT_COLOR);
 
     drawShip(p5, shipX);
@@ -60,7 +80,11 @@ export const Game = () => {
     checkShipCollision(
       p5.height - SHIP_HORIZON_LINE - SHIP_HEIGHT,
       invaders,
-      () => setPlaying(false)
+      () => {
+        setPlaying(false);
+        setGameEnd(true);
+        p5.background(NIGHT_COLOR);
+      }
     );
 
     invaders.forEach((invader) => {
@@ -81,8 +105,16 @@ export const Game = () => {
     bullets.forEach((bullet) => {
       drawBullet(p5, bullet.x, bullet.y);
       moveBullet(bullet, setBullets);
-      checkCollision(bullet, invaders, setInvaders, setBullets);
+      checkCollision(bullet, invaders, setInvaders, setBullets, setScore);
     });
+
+    if (score === INVADERS_PER_ROW * INVADER_ROWS) {
+      setPlaying(false);
+      setGameEnd(true);
+      setHasWon(true);
+      p5.background(NIGHT_COLOR);
+      return;
+    }
   };
 
   const keyReleased = (p5: p5Types) => {
@@ -113,6 +145,32 @@ export const Game = () => {
     <div className="w-full min-h-screen px-4 lg:px-24">
       <div className="flex flex-col gap-4">
         <SectionHeader text="Play Space Invaders" />
+
+        <div className={`text-slate-300 ${robotoMono.className}`}>
+          <p>Press play to start playing.</p>
+          <p>Desktop: Use arrow keys to move, and X to shoot.</p>
+          <p>Mobile: Use the on screen buttons to move and shoot.</p>
+        </div>
+
+        {!playing && (
+          <div className="flex justify-center">
+            <button
+              onClick={() => setPlaying(true)}
+              className={`w-fit uppercase ${robotoMono.className} cursor-pointer mt-2 text-aqua border border-aqua p-2`}
+            >
+              PLAY
+            </button>
+          </div>
+        )}
+
+        {gameEnd && (
+          <div
+            className={`flex justify-center text-aqua ${pressStart.className}`}
+          >
+            {hasWon ? <p>You won!</p> : <p>You lost!</p>}
+          </div>
+        )}
+
         <div className="flex flex-col items-center">
           <Sketch
             setup={setup}
