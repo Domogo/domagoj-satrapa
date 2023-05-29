@@ -13,7 +13,7 @@ export const ExperienceNavbar: FC<{
 }> = ({ selectedExperience, setSelectedExperience }) => {
   const translateAmount = experienceList.indexOf(selectedExperience) * 25;
   return (
-    <div className="flex flex-col md:w-1/2 lg:w-1/2 mt-4">
+    <div className="flex flex-col w-full mt-4">
       <div className="w-full">
         <div
           className="ease-in-out duration-300"
@@ -26,7 +26,7 @@ export const ExperienceNavbar: FC<{
       </div>
 
       <div
-        className={`flex gap-2 text-slate-300 ${robotoMono.className} text-l lg:text-xl`}
+        className={`flex gap-2 text-slate-300 ${robotoMono.className} text-md lg:text-xl `}
       >
         {experienceList.map((e) => (
           <div
