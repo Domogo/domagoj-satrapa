@@ -42,7 +42,14 @@ export const Hero = () => {
 
       <div className="flex gap-2">
         <CTAButton url="#contact" text="Get in touch" />
-        {/* <CTAButton url="#" text="Resume" /> */}
+        <a
+          href="/SWE-Domagoj-Satrapa.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`w-fit uppercase ${robotoMono.className} cursor-pointer mt-2 text-aqua border border-aqua p-2`}
+        >
+          Resume
+        </a>
         <GitHubButton />
       </div>
     </div>
