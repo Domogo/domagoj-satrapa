@@ -34,7 +34,7 @@ export const Hero = () => {
           className={`${robotoMono.className} text-l lg:text-l text-slate-300`}
         >
           I&apos;m passionate about working on impactful projects that make a
-          difference. As a software engineer, I find fulfillment in using my
+          difference. As a software engineer, I find fulfilment in using my
           skills to create products that matter and have a positive impact on
           society.
         </p>
