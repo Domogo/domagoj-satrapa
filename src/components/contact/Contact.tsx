@@ -50,8 +50,8 @@ export const Contact = () => {
             <CustomizableInvader deg={0} />
             <LinkedInButton />
             <CTAButton
-              url="mailto:domagoj@tapija.com"
-              text="domagoj@tapija.com"
+              url="mailto:domsatrapa@gmail.com"
+              text="domsatrapa@gmail.com"
             />
             <CustomizableInvader deg={180} isBlue />
           </div>
